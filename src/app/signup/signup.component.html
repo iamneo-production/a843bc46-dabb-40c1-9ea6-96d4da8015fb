@@ -5,46 +5,49 @@
     <title>Register</title>
     <!-- <link rel="stylesheet" href="style.css"> -->
   </head>
-  <body>
+  <body> 
     <div class="center">
       <h1>Register</h1>
-      <form method="post">
+      <form #singupForm="ngForm" name="singupForm" (ngSubmit)="singupForm.form.valid && userRegister(singupForm)"  >
 
-      	<div >
+      
       		<label>Choose Role: </label>
-  			<select name="role" id="admin/user">
+  			<select name="role" id="admin/user" [(ngModel)]="user.role" required>
   				<option disabled>Enter User/Admin</option>
     			<option value="User">User</option>
     			<option value="Admin">Admin</option>
   			</select>         
-        </div>
+        
         <div class="txt_field">
-          <input type="text" required id="email">
+          <input type="email"  id="email"  name="email" [(ngModel)]="user.email" ngModel [email]="true"  required>
           <span></span>
           <label>Enter Email</label>
         </div>
         <div class="txt_field">
-          <input type="text" required id="username">
+          <input type="text"  id="username" name="username" minlength="3" [(ngModel)]="user.username" required>
+          
           <span></span>
           <label>Enter Username</label>
         </div>
         <div class="txt_field">
-          <input type="text" required id="mobileNumber">
+          <input type="tel"  id="mobileNumber"  name="mobileNumber"  [(ngModel)]="user.mobileNumber"  pattern="[0-9]{10}" required>
+          
           <span></span>
           <label>Enter Moblie Number</label>
         </div>
         <div class="txt_field">
-          <input type="password" required id="password">
+          <input type="password"  id="password" name="password" minlength="5" [(ngModel)]="user.password" required>
           <span></span>
           <label>Enter Password</label>
         </div>
         <div class="txt_field">
-          <input type="password" required id="ConfirmPassword">
+          <input type="password" id="confirmPassword" name="confirmPassword" minlength="5" pattern="{{user.password}}" #cpass="ngModel" [(ngModel)]="user.confirmPassword" required>
+          <span class="text-danger" *ngIf="singupForm.submitted && cpass.errors?.pattern">password and confirm Password does not match</span>
           <span></span>
           <label>Confirm Password</label>
         </div>
         
-        <input type="submit" id="submitButton" value="Submit">
+        <input [disabled]="singupForm.invalid"   type="submit" id="submitButton" value="Submit" >
         <div class="signup_link">
           Already a user?  <a routerLink="/login" >Login</a>
         </div>
